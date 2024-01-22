@@ -1,11 +1,14 @@
-﻿namespace HTML_CSV_processing;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data;
+
+namespace HTML_CSV_processing;
 
 class Program
 {
     static void Main(string[] args)
     {
-        DataProcessor processor = new DataProcessor(new DataReader(), "./game_orders.csv");
-        HtmlReader reader = new HtmlReader();
+        DataProcessor dataProc = new DataProcessor(path: "./game_orders.csv");
+        HtmlProcessor htmlProc = new HtmlProcessor();
 
 
         DateTime dateFrom = UserInterviewer.GetDate("Enter Start Date in format 'YYYY-MM-DD'");
@@ -16,18 +19,8 @@ class Program
 
         string tableDataHtmlFormat = "";
 
-        foreach(GameOrderStatistics filteredStat in processor.FilterByDate(dateFrom, dateTo))
-        {
-            tableDataHtmlFormat +=
-                $"<tr>\n" +
-                $"  <td>{filteredStat.GameTitle}</td>\n" +
-                $"  <td>foo</td>\n" +
-                $"  <td>foo</td>\n" +
-                $"  <td>bar</td>\n" +
-                $"</tr>\n";
-        }
 
-        string page = reader.ReadHtml(path: "./template.html");
+        string page = htmlProc.ReadTemplate(path: "./template.html");
 
 
         //string formatedPage = string.Format(format:page, arg0:dateFrom.ToString(), arg1:dateTo.ToString(), arg2:tableDataHtmlFormat);
@@ -47,16 +40,31 @@ public static class Logger
 {
 
 }
-public class HtmlReader
+
+
+public class HtmlProcessor
 {
-    public string ReadHtml(string path)
+    public string ReadTemplate(string path)
     {
         if (!File.Exists(path)) throw new Exception();
         return File.ReadAllText(path);
     }
-}
 
-public class HtmlWriter
-{
+    public string ReturnHtmlTableRows(GameOrderStatistics[] filteredData)
+    {
+        string HtmlTableRows = "";
+        foreach (GameOrderStatistics filteredStat in filteredData)
+        {
+            HtmlTableRows +=
+                $"<tr>\n" +
+                $"  <td>{filteredStat.GameTitle}</td>\n" +
+                $"  <td>foo</td>\n" +
+                $"  <td>foo</td>\n" +
+                $"  <td>bar</td>\n" +
+                $"</tr>\n";
+        }
+        return HtmlTableRows;
+    }
+
 
 }

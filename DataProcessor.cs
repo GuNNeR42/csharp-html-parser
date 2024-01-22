@@ -8,7 +8,7 @@ public class DataProcessor
 
 
 
-    public DataProcessor(string path = "./", string datePattern = "yyyy-MM-dd")
+    public DataProcessor(string path, string datePattern = "yyyy-MM-dd")
     {
         Path = path;
         Data = ReadCSV(Path);
