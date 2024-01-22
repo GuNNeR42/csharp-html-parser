@@ -2,16 +2,21 @@
 
 public class DataProcessor
 {
-    public DataReader Rdr { get; set; }
     public List<GameOrderStatistics> Data { get; set; }
     public string Path { get; set; }
+    public DateHandler DateHandler { get; set; }
 
-    public DataProcessor(DataReader rdr, string path = "./")
+
+
+    public DataProcessor(string path = "./", string datePattern = "yyyy-MM-dd")
     {
-        Rdr = rdr;
         Path = path;
-        Data = Rdr.ReadCSV(Path);
+        Data = ReadCSV(Path);
+        DateHandler = new DateHandler(datePattern);
+
     }
+
+
 
     public GameOrderStatistics[] FilterByDate(DateTime dateFrom, DateTime dateTo)
     {
@@ -21,4 +26,39 @@ public class DataProcessor
                 .ToArray();
         return ordered;
     }
+
+
+
+    public List<GameOrderStatistics> ReadCSV(string path, bool firstLineHeader = true)
+    {
+        List<GameOrderStatistics> stats = new List<GameOrderStatistics>();
+
+        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+        {
+            using (StreamReader rdr = new StreamReader(stream))
+            {
+                if (firstLineHeader) rdr.ReadLine(); //skips header
+
+                while (!rdr.EndOfStream)
+                {
+                    stats.Add(ParseLine(rdr.ReadLine()));
+                }
+            }
+        }
+        return stats;
+    }
+
+    public GameOrderStatistics ParseLine(string line)
+    {
+        string[] data = line.Split(',');
+
+        string email = data[0];
+        string game = data[1];
+        string platform = data[2];
+        DateTime orderDate = DateHandler.Parse(data[3]);
+        string location = data[4];
+
+        return new GameOrderStatistics(email, game, platform, orderDate, location);
+    }
+
 }
