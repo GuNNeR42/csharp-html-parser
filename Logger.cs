@@ -10,7 +10,7 @@ public static class Logger
 
     public static void FileLog(string message)
     {
-        string log = $"t:{DateTime.Now.ToString()}; msg: {message}";
-        File.AppendAllText(path: "./log.txt", log);
+        string log = $"t:{DateTime.Now.ToString()}; msg: {message}\n";
+        File.AppendAllText(path: DefaultSettings.LogPath, log);
     }
 }
