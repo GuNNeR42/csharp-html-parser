@@ -7,6 +7,7 @@ public static class DataWriter
         try
         {
             File.WriteAllText(path, contents);
+            Logger.Log("File successfully exported");
             return true;
         }
         catch(Exception e)
@@ -15,5 +16,4 @@ public static class DataWriter
             return false;
         }
     }
-
 }

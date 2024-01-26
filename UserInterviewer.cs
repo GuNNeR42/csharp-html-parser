@@ -10,6 +10,7 @@ public static class UserInterviewer
         Console.WriteLine(message);
         DateTime.TryParseExact(Console.ReadLine(), format: "yyyy-MM-dd", null, DateTimeStyles.None, out date);
         //DateTime.TryParse(Console.ReadLine(), out date);
+        Logger.FileLog($"Entered date: {date.ToString("dd/MM/yyyy")}");
         return date;
     }
 }

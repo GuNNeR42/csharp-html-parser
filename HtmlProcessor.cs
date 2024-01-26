@@ -16,8 +16,16 @@ public static class HtmlProcessor
 
     public static string ReadTemplate(string path)
     {
-        if (!File.Exists(path)) throw new Exception();
-        return File.ReadAllText(path);
+        string template = "";
+        try
+        {
+            template = File.ReadAllText(path);
+        }
+        catch(Exception e)
+        {
+            Logger.Log(e.Message);
+        }
+        return template;
     }
 
     public static string ReturnHtmlTableRows(GameStatistics[] filteredData)

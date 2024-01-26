@@ -8,7 +8,7 @@ public static class Logger
         Console.WriteLine(message);
     }
 
-    private static void FileLog(string message)
+    public static void FileLog(string message)
     {
         string log = $"t:{DateTime.Now.ToString()}; msg: {message}";
         File.AppendAllText(path: "./log.txt", log);

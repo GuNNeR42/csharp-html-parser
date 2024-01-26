@@ -22,18 +22,26 @@ public class DataReaderParser
     {
         List<GameOrderStatistics> stats = new List<GameOrderStatistics>();
 
-        using (FileStream stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+        try
         {
-            using (StreamReader rdr = new StreamReader(stream))
+            using (FileStream stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
             {
-                if (firstLineHeader) rdr.ReadLine(); //skips header
-
-                while (!rdr.EndOfStream)
+                using (StreamReader rdr = new StreamReader(stream))
                 {
-                    stats.Add(ParseLine(rdr.ReadLine()));
+                    if (firstLineHeader) rdr.ReadLine(); //skips header
+
+                    while (!rdr.EndOfStream)
+                    {
+                        stats.Add(ParseLine(rdr.ReadLine()));
+                    }
                 }
             }
         }
+        catch (Exception e)
+        {
+            Logger.Log(e.Message);
+        }
+
         return stats;
     }
 

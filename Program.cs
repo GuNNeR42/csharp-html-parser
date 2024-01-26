@@ -8,15 +8,15 @@ class Program
 {
     static void Main(string[] args)
     {
-        DateTime dateFrom = UserInterviewer.GetDate("Enter Start Date in format 'YYYY-MM-DD'");
-        Console.WriteLine(dateFrom.ToString("dd/MM/yyyy"));
+        Logger.FileLog("Application run");
 
+        DateTime dateFrom = UserInterviewer.GetDate("Enter Start Date in format 'YYYY-MM-DD'");
         DateTime dateTo = UserInterviewer.GetDate("Enter End Date in format 'YYYY-MM-DD'");
-        Console.WriteLine(dateTo.ToString("dd/MM/yyyy"));
 
 
         DataReaderParser drp = new DataReaderParser(dateTimeFormat: "yyyy-MM-dd", path: "./game_orders.csv");
         DataProcessor dataProc = new DataProcessor();
+
 
         List<GameOrderStatistics> rawData = drp.ReadCSV();
 
@@ -25,8 +25,8 @@ class Program
         string page = HtmlProcessor.GetHtmlPage(dateFrom, dateTo, filtered);
 
         DataWriter.WriteTextFile(contents:page);
-        
 
+        Console.WriteLine("Press any key to exit");
         Console.ReadKey();
     }
 }

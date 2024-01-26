@@ -14,13 +14,22 @@ public class DateTimeHandler
 
     /// <summary>
     /// Parses string to DateTime
+    /// If failed to parse: returns DateTime.MinValue
     /// </summary>
     /// <param name="dateValue">String date value</param>
     /// <returns>Parsed DateTime</returns>
     public DateTime Parse(string dateValue)
     {
-        DateTime parsedDate;
-        DateTime.TryParseExact(dateValue, Pattern, null, DateTimeStyles.None, out parsedDate);
+        DateTime parsedDate = DateTime.MinValue;
+        try
+        {
+            DateTime.TryParseExact(dateValue, Pattern, null, DateTimeStyles.None, out parsedDate);
+        }
+        catch (Exception e)
+        {
+            Logger.Log(e.Message);
+        }
+
         return parsedDate;
     }
 }
