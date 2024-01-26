@@ -2,17 +2,21 @@
 
 namespace HTML_CSV_processing;
 
-public class DateHandler
+public class DateTimeHandler
 {
     public string Pattern { get; set; }
 
-    public DateHandler(string pattern)
+    public DateTimeHandler(string pattern)
     {
         Pattern = pattern;
     }
 
 
-
+    /// <summary>
+    /// Parses string to DateTime
+    /// </summary>
+    /// <param name="dateValue">String date value</param>
+    /// <returns>Parsed DateTime</returns>
     public DateTime Parse(string dateValue)
     {
         DateTime parsedDate;

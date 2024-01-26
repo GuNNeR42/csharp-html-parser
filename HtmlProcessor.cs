@@ -1,28 +1,38 @@
-﻿namespace HTML_CSV_processing;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
-public class HtmlProcessor
+namespace HTML_CSV_processing;
+
+public static class HtmlProcessor
 {
-    public string ReadTemplate(string path)
+    public static string GetHtmlPage(DateTime dateFrom, DateTime dateTo, GameStatistics[] filteredData, string pathToTemplate = "./template.html")
+    {
+        string page = ReadTemplate(pathToTemplate);
+        page = page .Replace("{0}", dateFrom.ToString("dddd, dd/MM/yyyy"))
+                    .Replace("{1}", dateTo.ToString("dddd, dd/MM/yyyy"))
+                    .Replace("{2}", ReturnHtmlTableRows(filteredData));
+
+        return page;
+    }
+
+    public static string ReadTemplate(string path)
     {
         if (!File.Exists(path)) throw new Exception();
         return File.ReadAllText(path);
     }
 
-    public string ReturnHtmlTableRows(GameOrderStatistics[] filteredData)
+    public static string ReturnHtmlTableRows(GameStatistics[] filteredData)
     {
         string HtmlTableRows = "";
-        foreach (GameOrderStatistics filteredStat in filteredData)
+        foreach (GameStatistics filteredStat in filteredData)
         {
             HtmlTableRows +=
                 $"<tr>\n" +
                 $"  <td>{filteredStat.GameTitle}</td>\n" +
-                $"  <td>foo</td>\n" +
-                $"  <td>foo</td>\n" +
-                $"  <td>bar</td>\n" +
+                $"  <td>{filteredStat.NumberOfOrders}</td>\n" +
+                $"  <td>{filteredStat.MostUsedPlatform}</td>\n" +
+                $"  <td>{filteredStat.LastOrder.ToString("dd/MM/yyyy")}</td>\n" +
                 $"</tr>\n";
         }
         return HtmlTableRows;
     }
-
-
 }
