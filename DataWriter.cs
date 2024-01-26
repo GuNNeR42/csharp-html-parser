@@ -2,7 +2,7 @@
 
 public static class DataWriter
 {
-    public static bool WriteTextFile(string contents, string path = "./export.html")
+    public static bool WriteTextFile(string contents, string path)
     {
         try
         {

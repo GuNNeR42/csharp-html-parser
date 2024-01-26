@@ -4,7 +4,7 @@ namespace HTML_CSV_processing;
 
 public static class HtmlProcessor
 {
-    public static string GetHtmlPage(DateTime dateFrom, DateTime dateTo, GameStatistics[] filteredData, string pathToTemplate = "./template.html")
+    public static string GetHtmlPage(DateTime dateFrom, DateTime dateTo, GameStatistics[] filteredData, string pathToTemplate)
     {
         string page = ReadTemplate(pathToTemplate);
         page = page .Replace("{0}", dateFrom.ToString("dddd, dd/MM/yyyy"))
@@ -38,7 +38,7 @@ public static class HtmlProcessor
                 $"  <td>{filteredStat.GameTitle}</td>\n" +
                 $"  <td>{filteredStat.NumberOfOrders}</td>\n" +
                 $"  <td>{filteredStat.MostUsedPlatform}</td>\n" +
-                $"  <td>{filteredStat.LastOrder.ToString("dd/MM/yyyy")}</td>\n" +
+                $"  <td>{filteredStat.LastOrder.ToString(DefaultSettings.HtmlParseDateTimeFormat)}</td>\n" +
                 $"</tr>\n";
         }
         return HtmlTableRows;

@@ -8,9 +8,9 @@ public static class UserInterviewer
     {
         DateTime date;
         Console.WriteLine(message);
-        DateTime.TryParseExact(Console.ReadLine(), format: "yyyy-MM-dd", null, DateTimeStyles.None, out date);
+        DateTime.TryParseExact(Console.ReadLine(), format: DefaultSettings.UserInputDateTimeFormat, null, DateTimeStyles.None, out date);
         //DateTime.TryParse(Console.ReadLine(), out date);
-        Logger.FileLog($"Entered date: {date.ToString("dd/MM/yyyy")}");
+        Logger.FileLog($"Entered date: {date.ToString(DefaultSettings.UserInputDateTimeFormat)}");
         return date;
     }
 }

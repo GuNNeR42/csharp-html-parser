@@ -14,7 +14,7 @@ class Program
         DateTime dateTo = UserInterviewer.GetDate("Enter End Date in format 'YYYY-MM-DD'");
 
 
-        DataReaderParser drp = new DataReaderParser(dateTimeFormat: "yyyy-MM-dd", path: "./game_orders.csv");
+        DataReaderParser drp = new DataReaderParser(DefaultSettings.UserInputDateTimeFormat, DefaultSettings.DataPath);
         DataProcessor dataProc = new DataProcessor();
 
 
@@ -22,9 +22,9 @@ class Program
 
         GameStatistics[] filtered = dataProc.FilterData(dateFrom, dateTo, rawData);
 
-        string page = HtmlProcessor.GetHtmlPage(dateFrom, dateTo, filtered);
+        string page = HtmlProcessor.GetHtmlPage(dateFrom, dateTo, filtered, DefaultSettings.TemplatePath);
 
-        DataWriter.WriteTextFile(contents:page);
+        DataWriter.WriteTextFile(contents:page, DefaultSettings.ExportPath);
 
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
